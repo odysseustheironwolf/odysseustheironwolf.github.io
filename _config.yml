@@ -1,0 +1,28 @@
+# Site settings
+title: Odysseus the Iron Wolf
+email: your-email@example.com
+description: >- # this means to ignore newlines until "baseurl:"
+  Personal website and blog of Odysseus the Iron Wolf.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://odysseustheironwolf.github.io" # the base hostname & protocol for your site
+twitter_username: yourtwitter
+github_username:  odysseustheironwolf
+
+# Build settings
+markdown: kramdown
+# Using a remote theme (Beautiful Jekyll)
+remote_theme: daattali/beautiful-jekyll
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-remote-theme
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/

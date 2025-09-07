@@ -386,6 +386,8 @@ MSBuild_Logs/
 
 # Local History for Visual Studio
 **/.localhistory/
+**/.bundle/
+**/.cache/
 
 # Visual Studio History (VSHistory) files
 .vshistory/
@@ -422,3 +424,10 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+#Cache folders 
+
+*~.bundle
+*.cache
+
+

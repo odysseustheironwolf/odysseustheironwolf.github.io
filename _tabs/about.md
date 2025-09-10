@@ -7,7 +7,7 @@ title: About Me
 
 ## About Me
 
-Hello! I'm Odysseus, the person behind this website. I'm passionate about technology, programming, and sharing knowledge.
+Hello! I'm Odysseus, the person behind this website. Junior SRE, I'm passionate about technology, programming, and sharing knowledge.
 
 ### Background
 
@@ -15,9 +15,9 @@ I have experience in various fields of technology and am constantly learning and
 
 ### Skills
 
-- Programming languages: JavaScript, Python, Ruby
+- Programming languages: Python, Ruby
 - Web development: HTML, CSS, React
-- Server technologies: Node.js, Express
+- Server technologies:
 - And many more!
 
 ### Contact

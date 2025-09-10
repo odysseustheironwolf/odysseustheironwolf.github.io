@@ -415,6 +415,7 @@ FodyWeavers.xsd
 # Local History for Visual Studio Code
 .history/
 
+
 # Built Visual Studio Code Extensions
 *.vsix
 
@@ -426,8 +427,13 @@ FodyWeavers.xsd
 *.msp
 
 #Cache folders 
+*~.bundle
+*.cache
+**/.cache/
+**/.bundle/
+
 
 *~.bundle
 *.cache
-
-
+**/.cache/
+~/.bundle/*

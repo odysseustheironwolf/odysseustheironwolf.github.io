@@ -1,4 +1,379 @@
----
-layout: home
-# Index page
----
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ulises A. Ferrer | Interactive Resume</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Cool Gray -->
+    <!-- Application Structure Plan: A single-page application with a sticky top navigation for smooth scrolling to thematic sections (Hero, About, Skills, Experience, Projects, Education). This non-linear, interactive structure allows recruiters to quickly jump to relevant information while providing engaging ways to explore content, such as an interactive skills chart and an expandable career timeline. This is more user-friendly than a static, linear document. -->
+    <!-- Visualization & Content Choices: 1. Skills -> Goal: Inform/Compare -> Viz: Interactive Radar Chart & Filterable List -> Interaction: Hover on chart, click on filter buttons -> Justification: Provides a quick visual summary of core competencies and allows for targeted exploration of specific tech stacks. Library: Chart.js. 2. Experience -> Goal: Organize/Change -> Viz: Vertical Timeline with Expandable Cards -> Interaction: Click to expand/collapse job details -> Justification: Intuitively shows career progression and keeps the UI clean by hiding details until requested. Method: HTML/CSS/JS. 3. Projects -> Goal: Organize/Showcase -> Viz: Grid of Cards -> Interaction: Hover effects, links to external repo -> Justification: A standard, visually appealing portfolio layout. Method: HTML/CSS. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            height: 40vh;
+            width: 100%;
+            max-height: 450px;
+            max-width: 450px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-700">
+
+    <nav id="navbar" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <span class="text-xl font-bold text-slate-800">Ulises A. Ferrer</span>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#about" class="text-slate-600 hover:text-blue-600 transition duration-300">About</a>
+                    <a href="#skills" class="text-slate-600 hover:text-blue-600 transition duration-300">Skills</a>
+                    <a href="#experience" class="text-slate-600 hover:text-blue-600 transition duration-300">Experience</a>
+                    <a href="#projects" class="text-slate-600 hover:text-blue-600 transition duration-300">Projects</a>
+                    <a href="#education" class="text-slate-600 hover:text-blue-600 transition duration-300">Education</a>
+                </div>
+                 <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-slate-600 hover:text-blue-600 focus:outline-none">
+                        <span class="text-2xl">&#9776;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden bg-white py-2">
+            <a href="#about" class="block text-center py-2 px-4 text-sm text-slate-600 hover:bg-blue-50">About</a>
+            <a href="#skills" class="block text-center py-2 px-4 text-sm text-slate-600 hover:bg-blue-50">Skills</a>
+            <a href="#experience" class="block text-center py-2 px-4 text-sm text-slate-600 hover:bg-blue-50">Experience</a>
+            <a href="#projects" class="block text-center py-2 px-4 text-sm text-slate-600 hover:bg-blue-50">Projects</a>
+            <a href="#education" class="block text-center py-2 px-4 text-sm text-slate-600 hover:bg-blue-50">Education</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8 md:py-16">
+
+        <section id="hero" class="text-center min-h-[60vh] flex flex-col items-center justify-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-slate-800 mb-4">Ulises A. Ferrer</h1>
+            <p class="text-xl md:text-2xl text-slate-600 mb-8">Systems Engineer | Cloud Infrastructure & Reliability</p>
+            <div class="flex items-center justify-center space-x-4">
+                <a href="https://www.linkedin.com/in/ulisesaferrer/" target="_blank" class="text-blue-600 hover:text-blue-800 transition duration-300">
+                    <span class="text-3xl font-bold">in</span>
+                </a>
+                <a href="https://github.com/odysseustheironwolf" target="_blank" class="text-slate-600 hover:text-slate-800 transition duration-300">
+                     <span class="text-3xl">&#128025;</span>
+                </a>
+                <a href="mailto:ulises31ferrer@icloud.com" class="text-slate-600 hover:text-slate-800 transition duration-300">
+                    <span class="text-3xl">&#9993;</span>
+                </a>
+            </div>
+        </section>
+
+        <section id="about" class="py-16 md:py-24">
+            <h2 class="text-3xl font-bold text-center text-slate-800 mb-4">About Me</h2>
+            <div class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
+                <p class="text-lg text-slate-600 leading-relaxed">
+                    Systems and Support Engineer with **4+ years of experience** dedicated to maintaining the stability and performance of critical enterprise applications, cloud platforms, and hybrid infrastructure. Proven expertise in incident management, advanced troubleshooting, and root cause analysis (RCA) to effectively diagnose and resolve complex system escalations. Highly skilled in monitoring production environments to ensure consistent uptime and reliability. Committed to operational excellence through proactive support and continuous service improvement, while actively building proficiency in automation and scripting to streamline workflows.
+                </p>
+            </div>
+        </section>
+
+        <section id="skills" class="py-16 md:py-24 bg-slate-100 -mx-4 px-4">
+            <h2 class="text-3xl font-bold text-center text-slate-800 mb-12">Technical Skills</h2>
+            <div class="flex flex-col lg:flex-row items-center justify-around gap-12">
+                <div class="chart-container mx-auto">
+                    <canvas id="skillsChart"></canvas>
+                </div>
+                <div class="w-full lg:w-1/2">
+                    <p class="text-center mb-4 text-slate-600">Explore my key technical areas. Click a category to see details.</p>
+                    <div id="skills-buttons" class="flex flex-wrap justify-center gap-2 mb-6"></div>
+                    <div id="skills-display" class="bg-white p-6 rounded-lg shadow-inner min-h-[150px]">
+                        <p class="text-slate-500 text-center">Select a category to view specific skills.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="experience" class="py-16 md:py-24">
+            <h2 class="text-3xl font-bold text-center text-slate-800 mb-12">Career Timeline</h2>
+            <div id="timeline-container" class="relative max-w-3xl mx-auto">
+            </div>
+        </section>
+
+        <section id="projects" class="py-16 md:py-24 bg-slate-100 -mx-4 px-4">
+            <h2 class="text-3xl font-bold text-center text-slate-800 mb-12">Technical Projects</h2>
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            </div>
+        </section>
+
+        <section id="education" class="py-16 md:py-24">
+            <h2 class="text-3xl font-bold text-center text-slate-800 mb-12">Education & Certifications</h2>
+            <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div id="education-card"></div>
+                <div id="certs-card"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-800 text-slate-300 py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 Ulises A. Ferrer. Built with passion and code.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const resumeData = {
+                skills: {
+                    'Cloud & Virtualization': ['AWS (EC2, S3, RDS, IAM, CloudWatch, Route53, VPC)', 'Azure', 'Proxmox', 'Synology NAS'],
+                    'Automation & Scripting': ['PowerShell', 'Python (Learning)', 'Bash (Learning)', 'Git', 'GitHub', 'GitHub Actions'],
+                    'Observability': ['OpenSearch', 'Grafana', 'Prometheus', 'CloudWatch', 'Nagios', 'MDbg'],
+                    'Networking & Identity': ['Active Directory & Azure AD', 'DNS/DHCP', 'VLAN', 'Load Balancing', 'VPN', 'Routing & Switching'],
+                    'Security': ['Firewall Mgmt (pfSense, Unifi)', 'Zero Trust', 'IAM/MFA/SSO', 'IDS/IPS', 'SIEM/Log Analysis', 'Incident Response'],
+                },
+                experience: [
+                    {
+                        role: 'Software Support Specialist II',
+                        company: 'ConnectWise',
+                        period: 'Oct 2022 – Present',
+                        type: 'Professional',
+                        details: [
+                            'Serve as the final escalation point for Tier II enterprise support, consistently resolving complex, high-impact incidents across hybrid cloud/on-prem infrastructure, authentication failures, and cross-platform networking issues.',
+                            'Reduced mean time to resolution (MTTR) by collaborating directly with engineering and QA teams to troubleshoot, reproduce, and validate bug fixes for critical production issues.',
+                            'Execute rigorous Root Cause Analysis (RCA) using SQL, OpenSearch, and advanced debugging tools (MDbg, Sysinternals) to identify systemic failures, document findings, and implement preventative measures.',
+                            'Created comprehensive technical documentation and troubleshooting runbooks that successfully improved Tier I/II resolution rates and streamlined knowledge transfer.',
+                            'Implemented proactive monitoring strategies by defining and tuning alerting thresholds in CloudWatch and OpenSearch to detect system degradation prior to customer impact.',
+                            'Mentor junior engineers, elevating team technical capability and significantly reducing the volume of L2 escalations.'
+                        ]
+                    },
+                     {
+                        role: 'Technical Knowledge Specialist',
+                        company: 'ConnectWise',
+                        period: 'Oct 2022 – Jul 2023',
+                        type: 'Professional',
+                        details: [
+                           'Provided Tier II escalation engineering for critical ScreenConnect application issues, diagnosing problems across software, system, and network layers.',
+                           'Collaborated closely with Product and Engineering to identify recurring failure modes, recommend reliability improvements, and validate bug fixes prior to deployment.',
+                           'Developed and maintained advanced troubleshooting guides, runbooks, and knowledge base articles to streamline incident resolution and improve team onboarding.'
+                        ]
+                    },
+                    {
+                        role: 'Help Desk Technician',
+                        company: 'ConnectWise',
+                        period: 'Apr 2021 – Oct 2022',
+                        type: 'Professional',
+                        details: [
+                            'Supported 10,000+ global users across Windows, macOS, and mobile environments, maintaining high levels of satisfaction and service quality.',
+                            'Administered and secured the Active Directory environment, implementing GPOs, MFA, and SSO integrations to enhance security and access compliance.',
+                            'Managed incident triage, initial root cause analysis, and escalations for critical infrastructure alerts.'
+                        ]
+                    },
+                    {
+                        role: 'Director of IT / Systems Engineer',
+                        company: 'North Terrace Church of Christ (Volunteer)',
+                        period: 'Oct 2020 – Present',
+                        type: 'Volunteer',
+                        details: [
+                            'Architected and managed a Proxmox virtualized infrastructure supporting Active Directory, file servers, and ScreenConnect, ensuring high availability and scalable performance.',
+                            'Deployed and configured Synology NAS solutions for automated backups, version control, and Git server integration, streamlining development and operational workflows.',
+                            'Designed and enforced network segmentation and secure VPN access, significantly enhancing organizational security posture and reducing attack vectors.',
+                            'Maintained a hybrid Active Directory and Azure environment, implementing SSO, MFA, and Slack integrations to optimize user access management and efficiency.'
+                        ]
+                    }
+                ],
+                projects: [
+                    {
+                        title: 'Ruby Web App Deployment',
+                        description: 'Built and deployed a static web application using Ruby, GitHub Actions, and GitHub Pages for content sharing and experimentation.',
+                        tags: ['Ruby', 'GitHub Actions', 'CI/CD']
+                    },
+                    {
+                        title: 'Proxmox Virtualization Lab',
+                        description: 'Deployed Active Directory and ScreenConnect servers for testing, administrative purposes, and hands-on lab simulations of production environments.',
+                        tags: ['Proxmox', 'Windows Server', 'Virtualization']
+                    },
+                    {
+                        title: 'Synology NAS for Backup & Docs',
+                        description: 'Configured off-site backups, Git version control, and hosted internal documentation, enhancing reliability and disaster recovery.',
+                        tags: ['Synology', 'Git', 'Backup', 'DR']
+                    }
+                ],
+                education: {
+                    degree: 'Associate of Arts and Sciences, Information Technology',
+                    institution: 'Hillsborough Community College',
+                    period: '2023 - Present'
+                },
+                certifications: [
+                    { name: 'CompTIA A+', status: 'Completed'},
+                    { name: 'CompTIA Network+', status: 'Completed' },
+                    { name: 'CompTIA IT Operations Specialist (CIOS)', status: 'Completed' },
+                    { name: 'AWS Certified Cloud Practitioner', status: 'In Progress' },
+                    { name: 'AZ-104: Microsoft Azure Administrator', status: 'In Progress' },
+                ]
+            };
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+            });
+
+            const setupSkillsChart = () => {
+                const ctx = document.getElementById('skillsChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: Object.keys(resumeData.skills),
+                        datasets: [{
+                            label: 'Core Competencies',
+                            data: [5, 4, 4, 5, 4], 
+                            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                            borderColor: 'rgba(59, 130, 246, 1)',
+                            pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(59, 130, 246, 1)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            r: {
+                                angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                                grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                                pointLabels: { font: { size: 12 }, color: '#475569' },
+                                ticks: {
+                                    display: false,
+                                    beginAtZero: true,
+                                    max: 5,
+                                    stepSize: 1
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            };
+
+            const setupSkillsInteraction = () => {
+                const buttonsContainer = document.getElementById('skills-buttons');
+                const displayContainer = document.getElementById('skills-display');
+
+                Object.keys(resumeData.skills).forEach(category => {
+                    const button = document.createElement('button');
+                    button.textContent = category;
+                    button.className = 'px-4 py-2 text-sm font-medium text-slate-600 bg-white rounded-full shadow-sm hover:bg-blue-100 hover:text-blue-700 transition duration-300';
+                    button.dataset.category = category;
+                    buttonsContainer.appendChild(button);
+                });
+
+                buttonsContainer.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const category = e.target.dataset.category;
+                        const skillsList = resumeData.skills[category];
+                        
+                        displayContainer.innerHTML = `<h3 class="font-bold text-slate-800 mb-2">${category}</h3><ul class="list-disc list-inside text-slate-600 space-y-1">` +
+                            skillsList.map(skill => `<li>${skill}</li>`).join('') + `</ul>`;
+                    }
+                });
+            };
+            
+            const setupTimeline = () => {
+                const timelineContainer = document.getElementById('timeline-container');
+                timelineContainer.innerHTML += '<div class="absolute left-4 top-0 h-full w-0.5 bg-slate-200"></div>';
+
+                resumeData.experience.forEach(job => {
+                    const timelineItem = document.createElement('div');
+                    timelineItem.className = 'relative mb-8 pl-12 timeline-item';
+                    
+                    const dotClass = job.type === 'Volunteer' ? 'bg-amber-500' : 'bg-blue-500';
+
+                    timelineItem.innerHTML = `
+                        <div class="absolute left-4 top-2 -translate-x-1/2 w-4 h-4 rounded-full ${dotClass} border-4 border-slate-50"></div>
+                        <div class="cursor-pointer">
+                            <p class="text-sm text-slate-500">${job.period}</p>
+                            <h3 class="text-lg font-bold text-slate-800">${job.role}</h3>
+                            <p class="text-md text-slate-600">${job.company}</p>
+                        </div>
+                        <div class="timeline-details hidden mt-4 pl-2 border-l-2 border-slate-200">
+                            <ul class="list-disc list-inside text-slate-600 space-y-2">
+                                ${job.details.map(detail => `<li>${detail}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                    timelineContainer.appendChild(timelineItem);
+                });
+
+                timelineContainer.addEventListener('click', (e) => {
+                    const item = e.target.closest('.timeline-item');
+                    if(item) {
+                        item.querySelector('.timeline-details').classList.toggle('hidden');
+                    }
+                });
+            };
+
+            const setupProjects = () => {
+                const grid = document.getElementById('projects-grid');
+                resumeData.projects.forEach(project => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-white p-6 rounded-lg shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300';
+                    card.innerHTML = `
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">${project.title}</h3>
+                        <p class="text-slate-600 mb-4">${project.description}</p>
+                        <div class="flex flex-wrap gap-2">
+                            ${project.tags.map(tag => `<span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">${tag}</span>`).join('')}
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            };
+            
+            const setupEducationAndCerts = () => {
+                const eduCard = document.getElementById('education-card');
+                eduCard.className = 'bg-white p-6 rounded-lg shadow-md';
+                eduCard.innerHTML = `
+                    <h3 class="text-xl font-bold text-slate-800 mb-4">Education</h3>
+                    <p class="font-semibold text-slate-700">${resumeData.education.degree}</p>
+                    <p class="text-slate-600">${resumeData.education.institution}</p>
+                    <p class="text-slate-500 text-sm">${resumeData.education.period}</p>
+                `;
+
+                const certsCard = document.getElementById('certs-card');
+                certsCard.className = 'bg-white p-6 rounded-lg shadow-md';
+                let certsHTML = '<h3 class="text-xl font-bold text-slate-800 mb-4">Certifications</h3><ul class="space-y-2">';
+                resumeData.certifications.forEach(cert => {
+                    const statusClass = cert.status === 'Completed' ? 'text-green-700 bg-green-100' : 'text-amber-700 bg-amber-100';
+                    const statusIcon = cert.status === 'Completed' ? '&#10004;' : '&#8987;';
+                    certsHTML += `
+                        <li class="flex items-center justify-between">
+                            <span class="text-slate-700">${cert.name}</span>
+                            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full ${statusClass}">${statusIcon} ${cert.status}</span>
+                        </li>
+                    `;
+                });
+                certsHTML += '</ul>';
+                certsCard.innerHTML = certsHTML;
+            };
+
+            setupSkillsChart();
+            setupSkillsInteraction();
+            setupTimeline();
+            setupProjects();
+            setupEducationAndCerts();
+        });
+    </script>
+</body>
+</html>

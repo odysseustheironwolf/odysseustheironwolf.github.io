@@ -1,0 +1,31 @@
+
+# Ignore build outputs and intermediate files
+/bin/
+/Canary/
+/Debug/
+/Release/
+/Out/
+/obj/
+/Properties/PublishProfiles/
+
+
+
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.cache
+*.pdb
+*.ilk
+*.log
+*.tlog
+*.lastbuildstate
+*.vspscc
+*.vssscc
+*.dbmdl
+*.jfm
+*.ncb
+
+# Testing files and cache
+*.TestResults/
+

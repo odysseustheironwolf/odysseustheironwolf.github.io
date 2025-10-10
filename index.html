@@ -1,22 +1,38 @@
+<!-- The DOCTYPE declaration defines the document type to be HTML5. It's the very first thing in your HTML document. -->
 <!DOCTYPE html>
+<!-- The <html> tag is the root element of an HTML page. The 'lang' attribute specifies the language of the document, which is good for accessibility and search engines. -->
+<!-- The 'scroll-smooth' class from Tailwind CSS enables smooth scrolling when a user clicks on an anchor link (e.g., in the navigation). -->
 <html lang="en" class="scroll-smooth">
+<!-- The <head> section contains meta-information about the HTML document, which is not displayed on the page itself. -->
 <head>
+    <!-- The 'charset' attribute specifies the character encoding for the document. UTF-8 is standard and can handle almost any character. -->
     <meta charset="UTF-8">
+    <!-- The 'viewport' meta tag gives the browser instructions on how to control the page's dimensions and scaling. 'width=device-width' sets the width of the page to follow the screen-width of the device, and 'initial-scale=1.0' sets the initial zoom level when the page is first loaded. This is crucial for responsive design. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- The <title> tag defines the title of the document, which is shown in the browser's title bar or in the page's tab. -->
     <title>Ulises A. Ferrer | Interactive Resume</title>
+    <!-- This <script> tag loads the Tailwind CSS library from a CDN (Content Delivery Network). This allows you to use its utility classes for styling without needing a complex build setup. -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- This <script> tag loads the Chart.js library, which is used to create the interactive skills chart. -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- These <link> tags are for loading the 'Inter' font from Google Fonts. -->
+    <!-- 'preconnect' hints to the browser to start a connection to the domain early, which can speed up font loading. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- This stylesheet link actually loads the 'Inter' font with specific weights (400, 500, 600, 700). -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- HTML comments like these are great for leaving notes for yourself or other developers. They are ignored by the browser. -->
     <!-- Chosen Palette: Cool Gray -->
     <!-- Application Structure Plan: A single-page application with a sticky top navigation for smooth scrolling to thematic sections (Hero, About, Skills, Experience, Projects, Education). This non-linear, interactive structure allows recruiters to quickly jump to relevant information while providing engaging ways to explore content, such as an interactive skills chart and an expandable career timeline. This is more user-friendly than a static, linear document. -->
     <!-- Visualization & Content Choices: 1. Skills -> Goal: Inform/Compare -> Viz: Interactive Radar Chart & Filterable List -> Interaction: Hover on chart, click on filter buttons -> Justification: Provides a quick visual summary of core competencies and allows for targeted exploration of specific tech stacks. Library: Chart.js. 2. Experience -> Goal: Organize/Change -> Viz: Vertical Timeline with Expandable Cards -> Interaction: Click to expand/collapse job details -> Justification: Intuitively shows career progression and keeps the UI clean by hiding details until requested. Method: HTML/CSS/JS. 3. Projects -> Goal: Organize/Showcase -> Viz: Grid of Cards -> Interaction: Hover effects, links to external repo -> Justification: A standard, visually appealing portfolio layout. Method: HTML/CSS. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- The <style> tag is used to define internal CSS. -->
     <style>
+        /* This sets the default font for the entire page to 'Inter', with a fallback to a generic sans-serif font. */
         body {
             font-family: 'Inter', sans-serif;
         }
+        /* This CSS class defines a container for the Chart.js canvas, making it responsive and setting a max size. */
         .chart-container {
             position: relative;
             height: 40vh;
@@ -26,26 +42,40 @@
         }
     </style>
 </head>
+<!-- The <body> tag contains all the visible content of the HTML document. -->
+<!-- The Tailwind classes 'bg-slate-50' and 'text-slate-700' set the default background and text color for the whole page. -->
 <body class="bg-slate-50 text-slate-700">
 
+    <!-- The <nav> tag defines a set of navigation links. -->
+    <!-- Tailwind classes make it a sticky top bar ('sticky top-0'), give it a semi-transparent white background ('bg-white/80'), a blur effect ('backdrop-blur-md'), a z-index to keep it on top ('z-50'), and a subtle shadow ('shadow-sm'). -->
     <nav id="navbar" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <!-- 'container mx-auto px-4' is a common Tailwind pattern to create a centered, max-width container with padding. -->
         <div class="container mx-auto px-4">
+            <!-- 'flex items-center justify-between h-16' creates a flexbox container to align items, centers them vertically, spaces them out, and sets a fixed height. -->
             <div class="flex items-center justify-between h-16">
+                <!-- This <span> displays your name. 'text-xl font-bold text-slate-800' makes the text larger, bold, and a darker color. -->
                 <span class="text-xl font-bold text-slate-800">Ulises A. Ferrer</span>
+                <!-- This <div> holds the desktop navigation links. 'hidden md:flex' hides it on small screens and displays it as a flex container on medium screens and up. -->
                 <div class="hidden md:flex items-center space-x-8">
+                    <!-- These are anchor <a> tags used for navigation. The 'href' attribute points to the ID of the section to scroll to (e.g., '#about'). -->
+                    <!-- The classes style the links and add a hover effect. -->
                     <a href="#about" class="text-slate-600 hover:text-blue-600 transition duration-300">About</a>
                     <a href="#skills" class="text-slate-600 hover:text-blue-600 transition duration-300">Skills</a>
                     <a href="#experience" class="text-slate-600 hover:text-blue-600 transition duration-300">Experience</a>
                     <a href="#projects" class="text-slate-600 hover:text-blue-600 transition duration-300">Projects</a>
                     <a href="#education" class="text-slate-600 hover:text-blue-600 transition duration-300">Education</a>
                 </div>
+                 <!-- This <div> holds the mobile menu button. 'md:hidden' makes it visible only on small screens (the opposite of the desktop menu). -->
                  <div class="md:hidden">
+                    <!-- This button will toggle the mobile menu. JavaScript will be used to add functionality. -->
                     <button id="mobile-menu-button" class="text-slate-600 hover:text-blue-600 focus:outline-none">
+                        <!-- The '&#9776;' is an HTML entity for the "hamburger" menu icon (≡). -->
                         <span class="text-2xl">&#9776;</span>
                     </button>
                 </div>
             </div>
         </div>
+        <!-- This is the mobile menu itself. It's hidden by default on all screen sizes ('md:hidden hidden') and will be shown by JavaScript when the button is clicked. -->
         <div id="mobile-menu" class="md:hidden hidden bg-white py-2">
             <a href="#about" class="block text-center py-2 px-4 text-sm text-slate-600 hover:bg-blue-50">About</a>
             <a href="#skills" class="block text-center py-2 px-4 text-sm text-slate-600 hover:bg-blue-50">Skills</a>
@@ -55,18 +85,26 @@
         </div>
     </nav>
 
+    <!-- The <main> tag specifies the main content of a document. It should be unique to the document. -->
     <main class="container mx-auto px-4 py-8 md:py-16">
 
+        <!-- A <section> tag groups related content. This is the "Hero" or introduction section. -->
         <section id="hero" class="text-center min-h-[60vh] flex flex-col items-center justify-center">
+            <!-- <h1> is the most important heading. You should only have one per page for SEO and accessibility. -->
             <h1 class="text-4xl md:text-6xl font-extrabold text-slate-800 mb-4">Ulises A. Ferrer</h1>
+            <!-- <p> is a paragraph tag. -->
             <p class="text-xl md:text-2xl text-slate-600 mb-8">Systems Engineer | Cloud Infrastructure & Reliability</p>
+            <!-- This div contains social media links. -->
             <div class="flex items-center justify-center space-x-4">
+                <!-- An anchor <a> tag linking to your LinkedIn profile. 'target="_blank"' opens the link in a new tab. -->
                 <a href="https://www.linkedin.com/in/ulisesaferrer/" target="_blank" class="text-blue-600 hover:text-blue-800 transition duration-300">
                     <span class="text-3xl font-bold">in</span>
                 </a>
+                <!-- A link to your GitHub. The '&#128025;' is an HTML entity for a cat/octopus icon (often used for GitHub). -->
                 <a href="https://github.com/odysseustheironwolf" target="_blank" class="text-slate-600 hover:text-slate-800 transition duration-300">
                      <span class="text-3xl">&#128025;</span>
                 </a>
+                <!-- A 'mailto:' link opens the user's default email client. The '&#9993;' is an HTML entity for an envelope icon. -->
                 <a href="mailto:ulises31ferrer@icloud.com" class="text-slate-600 hover:text-slate-800 transition duration-300">
                     <span class="text-3xl">&#9993;</span>
                 </a>
@@ -74,10 +112,12 @@
         </section>
 
         <section id="about" class="py-16 md:py-24">
+            <!-- <h2> is a secondary heading, used for section titles. -->
             <h2 class="text-3xl font-bold text-center text-slate-800 mb-4">About Me</h2>
+            <!-- This div acts as a styled card for the content. -->
             <div class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
                 <p class="text-lg text-slate-600 leading-relaxed">
-                    Systems and Support Engineer with **4+ years of experience** dedicated to maintaining the stability and performance of critical enterprise applications, cloud platforms, and hybrid infrastructure. Proven expertise in incident management, advanced troubleshooting, and root cause analysis (RCA) to effectively diagnose and resolve complex system escalations. Highly skilled in monitoring production environments to ensure consistent uptime and reliability. Committed to operational excellence through proactive support and continuous service improvement, while actively building proficiency in automation and scripting to streamline workflows.
+                    Systems and Support Engineer with <strong>4+ years of experience</strong> dedicated to maintaining the stability and performance of critical enterprise applications, cloud platforms, and hybrid infrastructure. Proven expertise in incident management, advanced troubleshooting, and root cause analysis (RCA) to effectively diagnose and resolve complex system escalations. Highly skilled in monitoring production environments to ensure consistent uptime and reliability. Committed to operational excellence through proactive support and continuous service improvement, while actively building proficiency in automation and scripting to streamline workflows.
                 </p>
             </div>
         </section>
@@ -86,11 +126,14 @@
             <h2 class="text-3xl font-bold text-center text-slate-800 mb-12">Technical Skills</h2>
             <div class="flex flex-col lg:flex-row items-center justify-around gap-12">
                 <div class="chart-container mx-auto">
+                    <!-- The <canvas> element is used to draw graphics, in this case, the radar chart via Chart.js. -->
                     <canvas id="skillsChart"></canvas>
                 </div>
                 <div class="w-full lg:w-1/2">
                     <p class="text-center mb-4 text-slate-600">Explore my key technical areas. Click a category to see details.</p>
+                    <!-- This empty div will be filled with skill category buttons by JavaScript. -->
                     <div id="skills-buttons" class="flex flex-wrap justify-center gap-2 mb-6"></div>
+                    <!-- This empty div will display the list of skills when a category button is clicked. -->
                     <div id="skills-display" class="bg-white p-6 rounded-lg shadow-inner min-h-[150px]">
                         <p class="text-slate-500 text-center">Select a category to view specific skills.</p>
                     </div>
@@ -100,27 +143,34 @@
         
         <section id="experience" class="py-16 md:py-24">
             <h2 class="text-3xl font-bold text-center text-slate-800 mb-12">Career Timeline</h2>
+            <!-- This div will be populated with the interactive timeline by JavaScript. -->
             <div id="timeline-container" class="relative max-w-3xl mx-auto">
             </div>
         </section>
 
         <section id="projects" class="py-16 md:py-24 bg-slate-100 -mx-4 px-4">
             <h2 class="text-3xl font-bold text-center text-slate-800 mb-12">Technical Projects</h2>
+            <!-- This div will be populated with project cards by JavaScript. It's set up as a responsive grid. -->
             <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             </div>
         </section>
 
         <section id="education" class="py-16 md:py-24">
             <h2 class="text-3xl font-bold text-center text-slate-800 mb-12">Education & Certifications</h2>
+            <!-- A grid layout to hold the education and certification cards side-by-side on larger screens. -->
             <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- This div will be populated with education info by JavaScript. -->
                 <div id="education-card"></div>
+                <!-- This div will be populated with certification info by JavaScript. -->
                 <div id="certs-card"></div>
             </div>
         </section>
     </main>
 
+    <!-- The <footer> tag defines a footer for a document or section. It typically contains authorship information, copyright data, etc. -->
     <footer class="bg-slate-800 text-slate-300 py-8">
         <div class="container mx-auto px-4 text-center">
+            <!-- The '&copy;' is an HTML entity for the copyright symbol (©). -->
             <p>&copy; 2025 Ulises A. Ferrer. Built with passion and code.</p>
         </div>
     </footer>
@@ -129,6 +179,9 @@
         document.addEventListener('DOMContentLoaded', function () {
             const resumeData = {
                 skills: {
+                    // This nested object holds all the data for the skills section.
+                    // JavaScript will read this data to build the chart and the interactive list.
+                    // Keeping data separate from presentation (HTML) is a very good practice.
                     'Cloud & Virtualization': ['AWS (EC2, S3, RDS, IAM, CloudWatch, Route53, VPC)', 'Azure', 'Proxmox', 'Synology NAS'],
                     'Automation & Scripting': ['PowerShell', 'Python (Learning)', 'Bash (Learning)', 'Git', 'GitHub', 'GitHub Actions'],
                     'Observability': ['OpenSearch', 'Grafana', 'Prometheus', 'CloudWatch', 'Nagios', 'MDbg'],
@@ -136,6 +189,7 @@
                     'Security': ['Firewall Mgmt (pfSense, Unifi)', 'Zero Trust', 'IAM/MFA/SSO', 'IDS/IPS', 'SIEM/Log Analysis', 'Incident Response'],
                 },
                 experience: [
+                    // An array of objects, where each object represents a job in your experience.
                     {
                         role: 'Software Support Specialist II',
                         company: 'ConnectWise',
@@ -186,6 +240,7 @@
                     }
                 ],
                 projects: [
+                    // An array of objects for your projects.
                     {
                         title: 'Ruby Web App Deployment',
                         description: 'Built and deployed a static web application using Ruby, GitHub Actions, and GitHub Pages for content sharing and experimentation.',
@@ -203,11 +258,13 @@
                     }
                 ],
                 education: {
+                    // An object for your education details.
                     degree: 'Associate of Arts and Sciences, Information Technology',
                     institution: 'Hillsborough Community College',
                     period: '2023 - Present'
                 },
                 certifications: [
+                    // An array of objects for your certifications.
                     { name: 'CompTIA A+', status: 'Completed'},
                     { name: 'CompTIA Network+', status: 'Completed' },
                     { name: 'CompTIA IT Operations Specialist (CIOS)', status: 'Completed' },
@@ -216,16 +273,23 @@
                 ]
             };
 
+            // --- Mobile Menu Interactivity ---
+            // Get references to the mobile menu button and the menu itself.
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
+            // Add a 'click' event listener to the button. When clicked, it toggles the 'hidden' class on the menu, showing or hiding it.
             mobileMenuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
             });
             
+            // This makes the mobile menu close when a link inside it is clicked.
             document.querySelectorAll('#mobile-menu a').forEach(link => {
                 link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
             });
 
+            // --- Dynamic Content Generation ---
+
+            // Function to set up the skills radar chart using Chart.js
             const setupSkillsChart = () => {
                 const ctx = document.getElementById('skillsChart').getContext('2d');
                 new Chart(ctx, {
@@ -234,7 +298,7 @@
                         labels: Object.keys(resumeData.skills),
                         datasets: [{
                             label: 'Core Competencies',
-                            data: [5, 4, 4, 5, 4], 
+                            data: [6, 6, 6, 6, 6 ], 
                             backgroundColor: 'rgba(59, 130, 246, 0.2)',
                             borderColor: 'rgba(59, 130, 246, 1)',
                             pointBackgroundColor: 'rgba(59, 130, 246, 1)',
@@ -268,11 +332,13 @@
                 });
             };
 
+            // Function to set up the interactive skill buttons and display area
             const setupSkillsInteraction = () => {
                 const buttonsContainer = document.getElementById('skills-buttons');
                 const displayContainer = document.getElementById('skills-display');
 
                 Object.keys(resumeData.skills).forEach(category => {
+                    // For each skill category in the data, create a button element.
                     const button = document.createElement('button');
                     button.textContent = category;
                     button.className = 'px-4 py-2 text-sm font-medium text-slate-600 bg-white rounded-full shadow-sm hover:bg-blue-100 hover:text-blue-700 transition duration-300';
@@ -280,6 +346,7 @@
                     buttonsContainer.appendChild(button);
                 });
 
+                // Add a single event listener to the button container (event delegation).
                 buttonsContainer.addEventListener('click', (e) => {
                     if (e.target.tagName === 'BUTTON') {
                         const category = e.target.dataset.category;
@@ -291,12 +358,15 @@
                 });
             };
             
+            // Function to build the career timeline from the data object
             const setupTimeline = () => {
                 const timelineContainer = document.getElementById('timeline-container');
+                // This adds the vertical line for the timeline.
                 timelineContainer.innerHTML += '<div class="absolute left-4 top-0 h-full w-0.5 bg-slate-200"></div>';
 
                 resumeData.experience.forEach(job => {
                     const timelineItem = document.createElement('div');
+                    // Create a new div for each job entry.
                     timelineItem.className = 'relative mb-8 pl-12 timeline-item';
                     
                     const dotClass = job.type === 'Volunteer' ? 'bg-amber-500' : 'bg-blue-500';
@@ -317,6 +387,7 @@
                     timelineContainer.appendChild(timelineItem);
                 });
 
+                // Add a click listener to the whole container to handle expanding/collapsing job details.
                 timelineContainer.addEventListener('click', (e) => {
                     const item = e.target.closest('.timeline-item');
                     if(item) {
@@ -325,9 +396,11 @@
                 });
             };
 
+            // Function to build the project cards
             const setupProjects = () => {
                 const grid = document.getElementById('projects-grid');
                 resumeData.projects.forEach(project => {
+                    // Create a card for each project and inject the HTML with project data.
                     const card = document.createElement('div');
                     card.className = 'bg-white p-6 rounded-lg shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300';
                     card.innerHTML = `
@@ -341,6 +414,7 @@
                 });
             };
             
+            // Function to build the education and certification cards
             const setupEducationAndCerts = () => {
                 const eduCard = document.getElementById('education-card');
                 eduCard.className = 'bg-white p-6 rounded-lg shadow-md';
@@ -368,6 +442,7 @@
                 certsCard.innerHTML = certsHTML;
             };
 
+            // Finally, call all the setup functions to build the page content.
             setupSkillsChart();
             setupSkillsInteraction();
             setupTimeline();

@@ -1,0 +1,24 @@
+/Canary/
+/Debug/
+/Release/
+/Out/
+/obj/
+/Properties/PublishProfiles/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.cache
+*.pdb
+*.ilk
+*.log
+*.tlog
+*.lastbuildstate
+*.vspscc
+*.vssscc
+*.dbmdl
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json         

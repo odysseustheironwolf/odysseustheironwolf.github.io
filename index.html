@@ -1,454 +1,737 @@
-<!-- The DOCTYPE declaration defines the document type to be HTML5. It's the very first thing in your HTML document. -->
 <!DOCTYPE html>
-<!-- The <html> tag is the root element of an HTML page. The 'lang' attribute specifies the language of the document, which is good for accessibility and search engines. -->
-<!-- The 'scroll-smooth' class from Tailwind CSS enables smooth scrolling when a user clicks on an anchor link (e.g., in the navigation). -->
-<html lang="en" class="scroll-smooth">
-<!-- The <head> section contains meta-information about the HTML document, which is not displayed on the page itself. -->
+<html lang="en">
 <head>
-    <!-- The 'charset' attribute specifies the character encoding for the document. UTF-8 is standard and can handle almost any character. -->
-    <meta charset="UTF-8">
-    <!-- The 'viewport' meta tag gives the browser instructions on how to control the page's dimensions and scaling. 'width=device-width' sets the width of the page to follow the screen-width of the device, and 'initial-scale=1.0' sets the initial zoom level when the page is first loaded. This is crucial for responsive design. -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- The <title> tag defines the title of the document, which is shown in the browser's title bar or in the page's tab. -->
-    <title>Ulises A. Ferrer | Interactive Resume</title>
-    <!-- This <script> tag loads the Tailwind CSS library from a CDN (Content Delivery Network). This allows you to use its utility classes for styling without needing a complex build setup. -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- This <script> tag loads the Chart.js library, which is used to create the interactive skills chart. -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- These <link> tags are for loading the 'Inter' font from Google Fonts. -->
-    <!-- 'preconnect' hints to the browser to start a connection to the domain early, which can speed up font loading. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- This stylesheet link actually loads the 'Inter' font with specific weights (400, 500, 600, 700). -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- HTML comments like these are great for leaving notes for yourself or other developers. They are ignored by the browser. -->
-    <!-- Chosen Palette: Cool Gray -->
-    <!-- Application Structure Plan: A single-page application with a sticky top navigation for smooth scrolling to thematic sections (Hero, About, Skills, Experience, Projects, Education). This non-linear, interactive structure allows recruiters to quickly jump to relevant information while providing engaging ways to explore content, such as an interactive skills chart and an expandable career timeline. This is more user-friendly than a static, linear document. -->
-    <!-- Visualization & Content Choices: 1. Skills -> Goal: Inform/Compare -> Viz: Interactive Radar Chart & Filterable List -> Interaction: Hover on chart, click on filter buttons -> Justification: Provides a quick visual summary of core competencies and allows for targeted exploration of specific tech stacks. Library: Chart.js. 2. Experience -> Goal: Organize/Change -> Viz: Vertical Timeline with Expandable Cards -> Interaction: Click to expand/collapse job details -> Justification: Intuitively shows career progression and keeps the UI clean by hiding details until requested. Method: HTML/CSS/JS. 3. Projects -> Goal: Organize/Showcase -> Viz: Grid of Cards -> Interaction: Hover effects, links to external repo -> Justification: A standard, visually appealing portfolio layout. Method: HTML/CSS. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-    <!-- The <style> tag is used to define internal CSS. -->
-    <style>
-        /* This sets the default font for the entire page to 'Inter', with a fallback to a generic sans-serif font. */
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        /* This CSS class defines a container for the Chart.js canvas, making it responsive and setting a max size. */
-        .chart-container {
-            position: relative;
-            height: 40vh;
-            width: 100%;
-            max-height: 450px;
-            max-width: 450px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ulises A. Ferrer — Resume</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0e14;
+    --surface: #111520;
+    --surface2: #161b28;
+    --border: #1e2535;
+    --border-bright: #2a3550;
+    --accent: #00d4ff;
+    --accent2: #7b5ea7;
+    --accent3: #f0a500;
+    --text: #d4dde8;
+    --text-dim: #6b7a96;
+    --text-bright: #eaf2ff;
+    --green: #00e5a0;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    line-height: 1.65;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 48px 32px 64px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border-bright);
+    margin-bottom: 40px;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .name-block {}
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+    opacity: 0.85;
+  }
+  .name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 8vw, 80px);
+    letter-spacing: 0.04em;
+    line-height: 0.95;
+    color: var(--text-bright);
+  }
+  .name span {
+    color: var(--accent);
+  }
+  .title-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    border: 1px solid var(--border-bright);
+    padding: 4px 12px;
+    border-radius: 2px;
+  }
+  .title-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    flex-shrink: 0;
+  }
+
+  .contact-block {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .contact-item {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .contact-item:hover { color: var(--accent); }
+  .contact-item .label {
+    color: var(--accent2);
+    margin-right: 6px;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* ── LAYOUT ── */
+  .body-grid {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 36px;
+    align-items: start;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 36px;
+    animation: fadeUp 0.5s ease both;
+  }
+  .section:nth-child(1) { animation-delay: 0.1s; }
+  .section:nth-child(2) { animation-delay: 0.2s; }
+  .section:nth-child(3) { animation-delay: 0.3s; }
+  .section:nth-child(4) { animation-delay: 0.4s; }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border-bright), transparent);
+  }
+  .section-label span {
+    color: var(--text-dim);
+    margin-right: 2px;
+  }
+
+  /* ── SUMMARY ── */
+  .summary-text {
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--text-dim);
+    border-left: 2px solid var(--accent);
+    padding-left: 14px;
+  }
+  .summary-text strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  /* ── JOB ── */
+  .job {
+    margin-bottom: 24px;
+    padding: 18px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+  .job:hover {
+    border-color: var(--border-bright);
+  }
+  .job::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 12px; bottom: 12px;
+    width: 2px;
+    background: linear-gradient(180deg, var(--accent), var(--accent2));
+    border-radius: 0 2px 2px 0;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .job:hover::before { opacity: 1; }
+
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+  .job-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-bright);
+    letter-spacing: 0.01em;
+  }
+  .job-dates {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    color: var(--accent3);
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+  .job-company {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--accent2);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .job-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .job-bullets li {
+    font-size: 12.5px;
+    color: var(--text-dim);
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.6;
+  }
+  .job-bullets li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .job-bullets li strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  /* ── PROJECT ── */
+  .project {
+    margin-bottom: 18px;
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+  }
+  .project-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-bright);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .project-title::before {
+    content: '//';
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    opacity: 0.7;
+  }
+  .project-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .project-bullets li {
+    font-size: 12px;
+    color: var(--text-dim);
+    padding-left: 12px;
+    position: relative;
+    line-height: 1.6;
+  }
+  .project-bullets li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent2);
+    font-size: 9px;
+    top: 4px;
+  }
+  .project-sub-label {
+    color: var(--green);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    animation: fadeUp 0.5s ease 0.5s both;
+  }
+
+  /* ── SKILL GROUPS ── */
+  .skill-group {
+    margin-bottom: 0;
+  }
+  .skill-group-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent3);
+    margin-bottom: 8px;
+  }
+  .skill-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    padding: 3px 9px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .pill:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .pill.hl {
+    border-color: var(--accent2);
+    color: var(--accent2);
+    background: rgba(123,94,167,0.08);
+  }
+
+  /* ── CERTS ── */
+  .cert-item {
+    padding: 10px 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    margin-bottom: 6px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cert-name {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--text-bright);
+    line-height: 1.4;
+    margin-bottom: 2px;
+  }
+  .cert-status {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .cert-status.active { color: var(--green); }
+  .cert-status.progress { color: var(--accent3); }
+  .cert-item .bar {
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+  .cert-item.wip .bar {
+    background: linear-gradient(90deg, var(--accent3), var(--accent2));
+    width: 50%;
+  }
+  .cert-item:not(.wip) .bar { width: 100%; }
+
+  /* ── EDUCATION ── */
+  .edu-item {
+    padding: 10px 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+  }
+  .edu-degree {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-bright);
+    margin-bottom: 3px;
+  }
+  .edu-school {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    color: var(--text-dim);
+    letter-spacing: 0.06em;
+  }
+  .edu-status {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--accent3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 3px;
+  }
+
+  /* ── MOTTO ── */
+  .motto {
+    padding: 14px;
+    border: 1px solid var(--border-bright);
+    border-radius: 3px;
+    background: linear-gradient(135deg, rgba(0,212,255,0.04), rgba(123,94,167,0.06));
+    text-align: center;
+  }
+  .motto-verse {
+    font-family: 'DM Sans', sans-serif;
+    font-style: italic;
+    font-size: 11.5px;
+    line-height: 1.65;
+    color: var(--text-dim);
+  }
+  .motto-ref {
+    display: block;
+    margin-top: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--accent2);
+    letter-spacing: 0.15em;
+  }
+
+  /* ── KEYFRAMES ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media print {
+    body { background: #fff; color: #111; }
+    body::before { display: none; }
+    .page { padding: 20px; }
+    * { animation: none !important; }
+    :root {
+      --bg: #fff; --surface: #f5f5f5; --surface2: #ebebeb;
+      --border: #ddd; --border-bright: #ccc;
+      --text: #222; --text-dim: #555; --text-bright: #000;
+      --accent: #0066cc; --accent2: #6633aa; --accent3: #cc7700; --green: #007a4d;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .body-grid { grid-template-columns: 1fr; }
+    .header { grid-template-columns: 1fr; }
+    .contact-block { text-align: left; }
+  }
+</style>
 </head>
-<!-- The <body> tag contains all the visible content of the HTML document. -->
-<!-- The Tailwind classes 'bg-slate-50' and 'text-slate-700' set the default background and text color for the whole page. -->
-<body class="bg-slate-50 text-slate-700">
+<body>
+<div class="page">
 
-    <!-- The <nav> tag defines a set of navigation links. -->
-    <!-- Tailwind classes make it a sticky top bar ('sticky top-0'), give it a semi-transparent white background ('bg-white/80'), a blur effect ('backdrop-blur-md'), a z-index to keep it on top ('z-50'), and a subtle shadow ('shadow-sm'). -->
-    <nav id="navbar" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
-        <!-- 'container mx-auto px-4' is a common Tailwind pattern to create a centered, max-width container with padding. -->
-        <div class="container mx-auto px-4">
-            <!-- 'flex items-center justify-between h-16' creates a flexbox container to align items, centers them vertically, spaces them out, and sets a fixed height. -->
-            <div class="flex items-center justify-between h-16">
-                <!-- This <span> displays your name. 'text-xl font-bold text-slate-800' makes the text larger, bold, and a darker color. -->
-                <span class="text-xl font-bold text-slate-800">Ulises A. Ferrer</span>
-                <!-- This <div> holds the desktop navigation links. 'hidden md:flex' hides it on small screens and displays it as a flex container on medium screens and up. -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <!-- These are anchor <a> tags used for navigation. The 'href' attribute points to the ID of the section to scroll to (e.g., '#about'). -->
-                    <!-- The classes style the links and add a hover effect. -->
-                    <a href="#about" class="text-slate-600 hover:text-blue-600 transition duration-300">About</a>
-                    <a href="#skills" class="text-slate-600 hover:text-blue-600 transition duration-300">Skills</a>
-                    <a href="#experience" class="text-slate-600 hover:text-blue-600 transition duration-300">Experience</a>
-                    <a href="#projects" class="text-slate-600 hover:text-blue-600 transition duration-300">Projects</a>
-                    <a href="#education" class="text-slate-600 hover:text-blue-600 transition duration-300">Education</a>
-                </div>
-                 <!-- This <div> holds the mobile menu button. 'md:hidden' makes it visible only on small screens (the opposite of the desktop menu). -->
-                 <div class="md:hidden">
-                    <!-- This button will toggle the mobile menu. JavaScript will be used to add functionality. -->
-                    <button id="mobile-menu-button" class="text-slate-600 hover:text-blue-600 focus:outline-none">
-                        <!-- The '&#9776;' is an HTML entity for the "hamburger" menu icon (≡). -->
-                        <span class="text-2xl">&#9776;</span>
-                    </button>
-                </div>
-            </div>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="name-block">
+      <div class="eyebrow">Cloud Infrastructure · Production Engineering</div>
+      <div class="name">Ulises A.<br><span>Ferrer</span></div>
+      <div class="title-tag">Available · Tampa Bay, FL</div>
+    </div>
+    <div class="contact-block">
+      <a href="tel:8139196094" class="contact-item"><span class="label">tel</span>(813) 919-6094</a>
+      <a href="mailto:ulises31ferrer@icloud.com" class="contact-item"><span class="label">email</span>ulises31ferrer@icloud.com</a>
+      <a href="https://linkedin.com/in/ulisesaferrer" class="contact-item" target="_blank"><span class="label">li</span>linkedin.com/in/ulisesaferrer</a>
+    </div>
+  </header>
+
+  <div class="body-grid">
+    <!-- MAIN COLUMN -->
+    <main>
+
+      <!-- SUMMARY -->
+      <section class="section">
+        <div class="section-label"><span>01</span> Summary</div>
+        <p class="summary-text">
+          Cloud Infrastructure Engineer with <strong>5+ years</strong> maintaining the stability, security, and performance of critical enterprise applications and hybrid infrastructure in <strong>regulated financial environments</strong>. Proven expertise in automated infrastructure provisioning, L3 complex escalations, and incident management. Strong foundation in <strong>AWS and Azure</strong>, with a track record of developing automated workflows using <strong>PowerShell and Python</strong> to eliminate manual overhead and optimize production reliability.
+        </p>
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section class="section">
+        <div class="section-label"><span>02</span> Experience</div>
+
+        <!-- Suncoast -->
+        <div class="job">
+          <div class="job-header">
+            <div class="job-title">Production Support Specialist</div>
+            <div class="job-dates">NOV 2025 — PRESENT</div>
+          </div>
+          <div class="job-company">Suncoast Credit Union · Tampa, FL</div>
+          <ul class="job-bullets">
+            <li>Serve as the <strong>final L3 technical escalation point</strong> for the full enterprise software ecosystem — internally-developed cloud-linked apps and complex third-party integrations in a regulated financial environment.</li>
+            <li>Triage and resolve high-priority infrastructure and application incidents for internal staff, members, and external API consumers, ensuring strict compliance and continuity of critical financial services.</li>
+            <li>Collaborate directly with Architecture, DevSecOps, Engineering, and QA to deploy system hotfixes, optimize environment configurations, and contribute to production infrastructure improvements.</li>
+            <li>Research and implement infrastructure improvements informed by <strong>SRE principles</strong> — SLOs/SLIs and blameless postmortems — to increase platform availability.</li>
+          </ul>
         </div>
-        <!-- This is the mobile menu itself. It's hidden by default on all screen sizes ('md:hidden hidden') and will be shown by JavaScript when the button is clicked. -->
-        <div id="mobile-menu" class="md:hidden hidden bg-white py-2">
-            <a href="#about" class="block text-center py-2 px-4 text-sm text-slate-600 hover:bg-blue-50">About</a>
-            <a href="#skills" class="block text-center py-2 px-4 text-sm text-slate-600 hover:bg-blue-50">Skills</a>
-            <a href="#experience" class="block text-center py-2 px-4 text-sm text-slate-600 hover:bg-blue-50">Experience</a>
-            <a href="#projects" class="block text-center py-2 px-4 text-sm text-slate-600 hover:bg-blue-50">Projects</a>
-            <a href="#education" class="block text-center py-2 px-4 text-sm text-slate-600 hover:bg-blue-50">Education</a>
+
+        <!-- ConnectWise SSS II -->
+        <div class="job">
+          <div class="job-header">
+            <div class="job-title">Software Support Specialist II — ScreenConnect Enterprise</div>
+            <div class="job-dates">JUL 2023 — NOV 2025</div>
+          </div>
+          <div class="job-company">ConnectWise · Tampa, FL</div>
+          <ul class="job-bullets">
+            <li>Acted as the <strong>final infrastructure escalation engineering point</strong> for enterprise incidents — hybrid cloud/on-prem deployments, load-balanced application tiers, and authentication systems.</li>
+            <li>Authored robust <strong>PowerShell and Python automation scripts</strong> for ScreenConnect server lifecycle management — provisioning, patching, and configuration — reducing manual administration hours for 90K+ customers.</li>
+            <li>Tuned alerting thresholds and custom dashboards in <strong>AWS CloudWatch and OpenSearch</strong> to proactively detect infrastructure degradation, improving early warning coverage.</li>
+            <li>Executed deep-dive RCA using <strong>SQL, OpenSearch log analytics, MDbg, and Sysinternals</strong> to identify systemic failure modes and implement long-term engineering fixes.</li>
+            <li>Mentored junior engineering tiers in cloud infrastructure troubleshooting methodologies, successfully <strong>reducing L2→L3 escalation volume</strong>.</li>
+          </ul>
         </div>
-    </nav>
 
-    <!-- The <main> tag specifies the main content of a document. It should be unique to the document. -->
-    <main class="container mx-auto px-4 py-8 md:py-16">
+        <!-- ConnectWise TKS -->
+        <div class="job">
+          <div class="job-header">
+            <div class="job-title">Technical Knowledge Specialist — ScreenConnect</div>
+            <div class="job-dates">OCT 2022 — JUL 2023</div>
+          </div>
+          <div class="job-company">ConnectWise · Tampa, FL</div>
+          <ul class="job-bullets">
+            <li>Provided Tier II escalation engineering for complex application, network, and systems-layer issues across global cloud and on-prem ScreenConnect infrastructure.</li>
+            <li>Developed advanced troubleshooting runbooks, architecture deployment guides, and internal technical documentation that accelerated engineer onboarding and <strong>reduced MTTR</strong>.</li>
+          </ul>
+        </div>
 
-        <!-- A <section> tag groups related content. This is the "Hero" or introduction section. -->
-        <section id="hero" class="text-center min-h-[60vh] flex flex-col items-center justify-center">
-            <!-- <h1> is the most important heading. You should only have one per page for SEO and accessibility. -->
-            <h1 class="text-4xl md:text-6xl font-extrabold text-slate-800 mb-4">Ulises A. Ferrer</h1>
-            <!-- <p> is a paragraph tag. -->
-            <p class="text-xl md:text-2xl text-slate-600 mb-8">Systems Engineer | Cloud Infrastructure & Reliability</p>
-            <!-- This div contains social media links. -->
-            <div class="flex items-center justify-center space-x-4">
-                <!-- An anchor <a> tag linking to your LinkedIn profile. 'target="_blank"' opens the link in a new tab. -->
-                <a href="https://www.linkedin.com/in/ulisesaferrer/" target="_blank" class="text-blue-600 hover:text-blue-800 transition duration-300">
-                    <span class="text-3xl font-bold">in</span>
-                </a>
-                <!-- A link to your GitHub. The '&#128025;' is an HTML entity for a cat/octopus icon (often used for GitHub). -->
-                <a href="https://github.com/odysseustheironwolf" target="_blank" class="text-slate-600 hover:text-slate-800 transition duration-300">
-                     <span class="text-3xl">&#128025;</span>
-                </a>
-                <!-- A 'mailto:' link opens the user's default email client. The '&#9993;' is an HTML entity for an envelope icon. -->
-                <a href="mailto:ulises31ferrer@icloud.com" class="text-slate-600 hover:text-slate-800 transition duration-300">
-                    <span class="text-3xl">&#9993;</span>
-                </a>
-            </div>
-        </section>
+        <!-- ConnectWise HD -->
+        <div class="job">
+          <div class="job-header">
+            <div class="job-title">Help Desk Technician</div>
+            <div class="job-dates">APR 2021 — OCT 2022</div>
+          </div>
+          <div class="job-company">ConnectWise · Tampa, FL</div>
+          <ul class="job-bullets">
+            <li>Supported <strong>10,000+ global users</strong> across enterprise Windows, Linux, and macOS environments while maintaining service quality metrics and SLA compliance.</li>
+            <li>Administered Active Directory infrastructure, enforcing granular GPO policies, MFA implementation, and SSO integrations to maintain rigid security compliance.</li>
+          </ul>
+        </div>
+      </section>
 
-        <section id="about" class="py-16 md:py-24">
-            <!-- <h2> is a secondary heading, used for section titles. -->
-            <h2 class="text-3xl font-bold text-center text-slate-800 mb-4">About Me</h2>
-            <!-- This div acts as a styled card for the content. -->
-            <div class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
-                <p class="text-lg text-slate-600 leading-relaxed">
-                    Systems and Support Engineer with 4+ years of experience dedicated to maintaining the stability and performance of critical enterprise applications, cloud platforms, and hybrid infrastructure. Proven expertise in incident management, advanced troubleshooting, and root cause analysis (RCA) to effectively diagnose and resolve complex system escalations. Highly skilled in monitoring production environments to ensure consistent uptime and reliability. Committed to operational excellence through proactive support and continuous service improvement, while actively building proficiency in automation and scripting to streamline workflows.
-                </p>
-            </div>
-        </section>
+      <!-- PROJECTS -->
+      <section class="section">
+        <div class="section-label"><span>03</span> Technical Projects</div>
 
-        <section id="skills" class="py-16 md:py-24 bg-slate-100 -mx-4 px-4">
-            <h2 class="text-3xl font-bold text-center text-slate-800 mb-12">Technical Skills</h2>
-            <div class="flex flex-col lg:flex-row items-center justify-around gap-12">
-                <div class="chart-container mx-auto">
-                    <!-- The <canvas> element is used to draw graphics, in this case, the radar chart via Chart.js. -->
-                    <canvas id="skillsChart"></canvas>
-                </div>
-                <div class="w-full lg:w-1/2">
-                    <p class="text-center mb-4 text-slate-600">Explore my key technical areas. Click a category to see details.</p>
-                    <!-- This empty div will be filled with skill category buttons by JavaScript. -->
-                    <div id="skills-buttons" class="flex flex-wrap justify-center gap-2 mb-6"></div>
-                    <!-- This empty div will display the list of skills when a category button is clicked. -->
-                    <div id="skills-display" class="bg-white p-6 rounded-lg shadow-inner min-h-[150px]">
-                        <p class="text-slate-500 text-center">Select a category to view specific skills.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section id="experience" class="py-16 md:py-24">
-            <h2 class="text-3xl font-bold text-center text-slate-800 mb-12">Career Timeline</h2>
-            <!-- This div will be populated with the interactive timeline by JavaScript. -->
-            <div id="timeline-container" class="relative max-w-3xl mx-auto">
-            </div>
-        </section>
+        <div class="project">
+          <div class="project-title">Automated Hybrid Cloud &amp; Home Lab Infrastructure</div>
+          <ul class="project-bullets">
+            <li><span class="project-sub-label">IaC</span>Modular Terraform configurations and AWS CloudFormation templates — automated VPCs, security groups, and EC2 compute provisioning.</li>
+            <li><span class="project-sub-label">CI/CD GitOps</span>GitHub Actions workflows for automated testing, linting, and deployment of IaC and application config scripts.</li>
+            <li><span class="project-sub-label">Containers</span>Deployed and managed containerized workloads using Docker across Fedora, RHEL, and Ubuntu — including custom Python automation scripts.</li>
+            <li><span class="project-sub-label">SRE</span>Defined SLO/SLI metrics, alert routing, and error budget monitoring for hosted services to simulate enterprise HA environments.</li>
+          </ul>
+        </div>
 
-        <section id="projects" class="py-16 md:py-24 bg-slate-100 -mx-4 px-4">
-            <h2 class="text-3xl font-bold text-center text-slate-800 mb-12">Technical Projects</h2>
-            <!-- This div will be populated with project cards by JavaScript. It's set up as a responsive grid. -->
-            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            </div>
-        </section>
+        <div class="project">
+          <div class="project-title">North Terrace Church of Christ — Director of IT / Systems Engineer (Volunteer)</div>
+          <ul class="project-bullets">
+            <li><span class="project-sub-label">Identity &amp; Infra</span>Architected and deployed a virtualized infrastructure from the ground up using Proxmox, Active Directory, and Azure AD with hybrid identity sync and SSO/MFA.</li>
+            <li><span class="project-sub-label">Networking</span>Designed network segmentation, VLAN configurations, and secure remote access via pfSense-managed IPSec/SSL VPN.</li>
+            <li><span class="project-sub-label">Resilience</span>Integrated Synology NAS for automated backup/DR workflows and Git-based version control for infrastructure documentation.</li>
+          </ul>
+        </div>
+      </section>
 
-        <section id="education" class="py-16 md:py-24">
-            <h2 class="text-3xl font-bold text-center text-slate-800 mb-12">Education & Certifications</h2>
-            <!-- A grid layout to hold the education and certification cards side-by-side on larger screens. -->
-            <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- This div will be populated with education info by JavaScript. -->
-                <div id="education-card"></div>
-                <!-- This div will be populated with certification info by JavaScript. -->
-                <div id="certs-card"></div>
-            </div>
-        </section>
     </main>
 
-    <!-- The <footer> tag defines a footer for a document or section. It typically contains authorship information, copyright data, etc. -->
-    <footer class="bg-slate-800 text-slate-300 py-8">
-        <div class="container mx-auto px-4 text-center">
-            <!-- The '&copy;' is an HTML entity for the copyright symbol (©). -->
-            <p>&copy; 2025 Ulises A. Ferrer. Built with passion and code.</p>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <!-- SKILLS -->
+      <section class="section" style="margin-bottom:0">
+        <div class="section-label"><span>04</span> Skills</div>
+
+        <div class="skill-group">
+          <div class="skill-group-label">Cloud &amp; Infra</div>
+          <div class="skill-pills">
+            <span class="pill hl">AWS</span>
+            <span class="pill hl">Azure</span>
+            <span class="pill">EC2</span>
+            <span class="pill">S3</span>
+            <span class="pill">RDS</span>
+            <span class="pill">IAM</span>
+            <span class="pill">VPC</span>
+            <span class="pill">CloudWatch</span>
+            <span class="pill">Route53</span>
+            <span class="pill">Proxmox</span>
+            <span class="pill">Synology</span>
+          </div>
         </div>
-    </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const resumeData = {
-                skills: {
-                    // This nested object holds all the data for the skills section.
-                    // JavaScript will read this data to build the chart and the interactive list.
-                    // Keeping data separate from presentation (HTML) is a very good practice.
-                    'Cloud & Virtualization': ['AWS (EC2, S3, RDS, IAM, CloudWatch, Route53, VPC)', 'Azure', 'Proxmox', 'Synology NAS'],
-                    'Automation & Scripting': ['PowerShell', 'Python', 'Bash', 'Git', 'GitHub', 'GitHub Actions'],
-                    'Observability': ['OpenSearch', 'Grafana', 'Prometheus', 'CloudWatch', 'Nagios', 'MDbg'],
-                    'Networking & Identity': ['Active Directory & Azure AD', 'DNS/DHCP', 'VLAN', 'Load Balancing', 'VPN', 'Routing & Switching'],
-                    'Security': ['Firewall Mgmt (pfSense, Unifi)', 'Zero Trust', 'IAM/MFA/SSO', 'IDS/IPS', 'SIEM/Log Analysis', 'Incident Response'],
-                },
-                experience: [
-                    // An array of objects, where each object represents a job in your experience.
-                    {
-                        role: 'Software Support Specialist II',
-                        company: 'ConnectWise',
-                        period: 'Oct 2022 – Present',
-                        type: 'Professional',
-                        details: [
-                            'Serve as the final escalation point for Tier II enterprise support, consistently resolving complex, high-impact incidents across hybrid cloud/on-prem infrastructure, authentication failures, and cross-platform networking issues.',
-                            'Reduced mean time to resolution (MTTR) by collaborating directly with engineering and QA teams to troubleshoot, reproduce, and validate bug fixes for critical production issues.',
-                            'Execute rigorous Root Cause Analysis (RCA) using SQL, OpenSearch, and advanced debugging tools (MDbg, Sysinternals) to identify systemic failures, document findings, and implement preventative measures.',
-                            'Created comprehensive technical documentation and troubleshooting runbooks that successfully improved Tier I/II resolution rates and streamlined knowledge transfer.',
-                            'Implemented proactive monitoring strategies by defining and tuning alerting thresholds in CloudWatch and OpenSearch to detect system degradation prior to customer impact.',
-                            'Mentor junior engineers, elevating team technical capability and significantly reducing the volume of L2 escalations.'
-                        ]
-                    },
-                     {
-                        role: 'Technical Knowledge Specialist',
-                        company: 'ConnectWise',
-                        period: 'Oct 2022 – Jul 2023',
-                        type: 'Professional',
-                        details: [
-                           'Provided Tier II escalation engineering for critical ScreenConnect application issues, diagnosing problems across software, system, and network layers.',
-                           'Collaborated closely with Product and Engineering to identify recurring failure modes, recommend reliability improvements, and validate bug fixes prior to deployment.',
-                           'Developed and maintained advanced troubleshooting guides, runbooks, and knowledge base articles to streamline incident resolution and improve team onboarding.'
-                        ]
-                    },
-                    {
-                        role: 'Help Desk Technician',
-                        company: 'ConnectWise',
-                        period: 'Apr 2021 – Oct 2022',
-                        type: 'Professional',
-                        details: [
-                            'Supported 10,000+ global users across Windows, macOS, and mobile environments, maintaining high levels of satisfaction and service quality.',
-                            'Administered and secured the Active Directory environment, implementing GPOs, MFA, and SSO integrations to enhance security and access compliance.',
-                            'Managed incident triage, initial root cause analysis, and escalations for critical infrastructure alerts.'
-                        ]
-                    },
-                    {
-                        role: 'Director of IT / Systems Engineer',
-                        company: 'North Terrace Church of Christ (Volunteer)',
-                        period: 'Oct 2020 – Present',
-                        type: 'Volunteer',
-                        details: [
-                            'Architected and managed a Proxmox virtualized infrastructure supporting Active Directory, file servers, and ScreenConnect, ensuring high availability and scalable performance.',
-                            'Deployed and configured Synology NAS solutions for automated backups, version control, and Git server integration, streamlining development and operational workflows.',
-                            'Designed and enforced network segmentation and secure VPN access, significantly enhancing organizational security posture and reducing attack vectors.',
-                            'Maintained a hybrid Active Directory and Azure environment, implementing SSO, MFA, and Slack integrations to optimize user access management and efficiency.'
-                        ]
-                    }
-                ],
-                projects: [
-                    // An array of objects for your projects.
-                    {
-                        title: 'Ruby Web App Deployment',
-                        description: 'Built and deployed a static web application using Ruby, GitHub Actions, and GitHub Pages for content sharing and experimentation.',
-                        tags: ['Ruby', 'GitHub Actions', 'CI/CD']
-                    },
-                    {
-                        title: 'Proxmox Virtualization Lab',
-                        description: 'Deployed Active Directory and ScreenConnect servers for testing, administrative purposes, and hands-on lab simulations of production environments.',
-                        tags: ['Proxmox', 'Windows Server', 'Virtualization']
-                    },
-                    {
-                        title: 'Synology NAS for Backup & Docs',
-                        description: 'Configured off-site backups, Git version control, and hosted internal documentation, enhancing reliability and disaster recovery.',
-                        tags: ['Synology', 'Git', 'Backup', 'DR']
-                    }
-                ],
-                education: {
-                    // An object for your education details.
-                    degree: 'Associate of Arts and Sciences, Information Technology',
-                    institution: 'Hillsborough Community College',
-                    period: '2023 - Present'
-                },
-                certifications: [
-                    // An array of objects for your certifications.
-                    { name: 'CompTIA A+', status: 'Completed'},
-                    { name: 'CompTIA Network+', status: 'Completed' },
-                    { name: 'CompTIA IT Operations Specialist (CIOS)', status: 'Completed' },
-                    { name: 'AWS Certified Cloud Practitioner', status: 'In Progress' },
-                    { name: 'AZ-104: Microsoft Azure Administrator', status: 'In Progress' },
-                ]
-            };
+        <div class="skill-group" style="margin-top:14px">
+          <div class="skill-group-label">Automation &amp; IaC</div>
+          <div class="skill-pills">
+            <span class="pill hl">PowerShell</span>
+            <span class="pill hl">Python</span>
+            <span class="pill">Terraform</span>
+            <span class="pill">Bash</span>
+            <span class="pill">GitHub Actions</span>
+            <span class="pill">Azure Functions</span>
+            <span class="pill">Git</span>
+          </div>
+        </div>
 
-            // --- Mobile Menu Interactivity ---
-            // Get references to the mobile menu button and the menu itself.
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            // Add a 'click' event listener to the button. When clicked, it toggles the 'hidden' class on the menu, showing or hiding it.
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-            
-            // This makes the mobile menu close when a link inside it is clicked.
-            document.querySelectorAll('#mobile-menu a').forEach(link => {
-                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
-            });
+        <div class="skill-group" style="margin-top:14px">
+          <div class="skill-group-label">Containers &amp; OS</div>
+          <div class="skill-pills">
+            <span class="pill">Docker</span>
+            <span class="pill">RHEL</span>
+            <span class="pill">Ubuntu</span>
+            <span class="pill">Fedora</span>
+            <span class="pill">Windows Server</span>
+            <span class="pill">VMware</span>
+          </div>
+        </div>
 
-            // --- Dynamic Content Generation ---
+        <div class="skill-group" style="margin-top:14px">
+          <div class="skill-group-label">Observability</div>
+          <div class="skill-pills">
+            <span class="pill">Grafana</span>
+            <span class="pill">Prometheus</span>
+            <span class="pill">OpenSearch</span>
+            <span class="pill">AppInsights</span>
+            <span class="pill">MDbg</span>
+          </div>
+        </div>
 
-            // Function to set up the skills radar chart using Chart.js
-            const setupSkillsChart = () => {
-                const ctx = document.getElementById('skillsChart').getContext('2d');
-                new Chart(ctx, {
-                    type: 'radar',
-                    data: {
-                        labels: Object.keys(resumeData.skills),
-                        datasets: [{
-                            label: 'Core Competencies',
-                            data: [6, 6, 6, 6, 6 ], 
-                            backgroundColor: 'rgba(59, 130, 246, 0.2)',
-                            borderColor: 'rgba(59, 130, 246, 1)',
-                            pointBackgroundColor: 'rgba(59, 130, 246, 1)',
-                            pointBorderColor: '#fff',
-                            pointHoverBackgroundColor: '#fff',
-                            pointHoverBorderColor: 'rgba(59, 130, 246, 1)'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            r: {
-                                angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
-                                grid: { color: 'rgba(0, 0, 0, 0.1)' },
-                                pointLabels: { font: { size: 12 }, color: '#475569' },
-                                ticks: {
-                                    display: false,
-                                    beginAtZero: true,
-                                    max: 5,
-                                    stepSize: 1
-                                }
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        }
-                    }
-                });
-            };
+        <div class="skill-group" style="margin-top:14px">
+          <div class="skill-group-label">Networking &amp; Security</div>
+          <div class="skill-pills">
+            <span class="pill">Active Directory</span>
+            <span class="pill">Azure AD</span>
+            <span class="pill">DNS/DHCP</span>
+            <span class="pill">VLANs</span>
+            <span class="pill">VPN</span>
+            <span class="pill">Zero Trust</span>
+            <span class="pill">SSO/MFA</span>
+            <span class="pill">pfSense</span>
+            <span class="pill">RBAC</span>
+            <span class="pill">SIEM</span>
+          </div>
+        </div>
+      </section>
 
-            // Function to set up the interactive skill buttons and display area
-            const setupSkillsInteraction = () => {
-                const buttonsContainer = document.getElementById('skills-buttons');
-                const displayContainer = document.getElementById('skills-display');
+      <!-- CERTIFICATIONS -->
+      <section class="section" style="margin-bottom:0">
+        <div class="section-label"><span>05</span> Certifications</div>
 
-                Object.keys(resumeData.skills).forEach(category => {
-                    // For each skill category in the data, create a button element.
-                    const button = document.createElement('button');
-                    button.textContent = category;
-                    button.className = 'px-4 py-2 text-sm font-medium text-slate-600 bg-white rounded-full shadow-sm hover:bg-blue-100 hover:text-blue-700 transition duration-300';
-                    button.dataset.category = category;
-                    buttonsContainer.appendChild(button);
-                });
+        <div class="cert-item wip">
+          <div class="cert-name">Microsoft AZ-104<br>Azure Administrator Associate</div>
+          <div class="cert-status progress">In Progress · Expected Jul 2026</div>
+          <div class="bar"></div>
+        </div>
 
-                // Add a single event listener to the button container (event delegation).
-                buttonsContainer.addEventListener('click', (e) => {
-                    if (e.target.tagName === 'BUTTON') {
-                        const category = e.target.dataset.category;
-                        const skillsList = resumeData.skills[category];
-                        
-                        displayContainer.innerHTML = `<h3 class="font-bold text-slate-800 mb-2">${category}</h3><ul class="list-disc list-inside text-slate-600 space-y-1">` +
-                            skillsList.map(skill => `<li>${skill}</li>`).join('') + `</ul>`;
-                    }
-                });
-            };
-            
-            // Function to build the career timeline from the data object
-            const setupTimeline = () => {
-                const timelineContainer = document.getElementById('timeline-container');
-                // This adds the vertical line for the timeline.
-                timelineContainer.innerHTML += '<div class="absolute left-4 top-0 h-full w-0.5 bg-slate-200"></div>';
+        <div class="cert-item wip">
+          <div class="cert-name">AWS Certified<br>Cloud Practitioner</div>
+          <div class="cert-status progress">In Progress · Expected December 2026</div>
+          <div class="bar"></div>
+        </div>
 
-                resumeData.experience.forEach(job => {
-                    const timelineItem = document.createElement('div');
-                    // Create a new div for each job entry.
-                    timelineItem.className = 'relative mb-8 pl-12 timeline-item';
-                    
-                    const dotClass = job.type === 'Volunteer' ? 'bg-amber-500' : 'bg-blue-500';
+        <div class="cert-item">
+          <div class="cert-name">CompTIA Network+</div>
+          <div class="cert-status active">Certified</div>
+          <div class="bar"></div>
+        </div>
 
-                    timelineItem.innerHTML = `
-                        <div class="absolute left-4 top-2 -translate-x-1/2 w-4 h-4 rounded-full ${dotClass} border-4 border-slate-50"></div>
-                        <div class="cursor-pointer">
-                            <p class="text-sm text-slate-500">${job.period}</p>
-                            <h3 class="text-lg font-bold text-slate-800">${job.role}</h3>
-                            <p class="text-md text-slate-600">${job.company}</p>
-                        </div>
-                        <div class="timeline-details hidden mt-4 pl-2 border-l-2 border-slate-200">
-                            <ul class="list-disc list-inside text-slate-600 space-y-2">
-                                ${job.details.map(detail => `<li>${detail}</li>`).join('')}
-                            </ul>
-                        </div>
-                    `;
-                    timelineContainer.appendChild(timelineItem);
-                });
+        <div class="cert-item">
+          <div class="cert-name">CompTIA A+</div>
+          <div class="cert-status active">Certified</div>
+          <div class="bar"></div>
+        </div>
 
-                // Add a click listener to the whole container to handle expanding/collapsing job details.
-                timelineContainer.addEventListener('click', (e) => {
-                    const item = e.target.closest('.timeline-item');
-                    if(item) {
-                        item.querySelector('.timeline-details').classList.toggle('hidden');
-                    }
-                });
-            };
+        <div class="cert-item">
+          <div class="cert-name">CompTIA CIOS<br>IT Operations Specialist</div>
+          <div class="cert-status active">Certified</div>
+          <div class="bar"></div>
+        </div>
+      </section>
 
-            // Function to build the project cards
-            const setupProjects = () => {
-                const grid = document.getElementById('projects-grid');
-                resumeData.projects.forEach(project => {
-                    // Create a card for each project and inject the HTML with project data.
-                    const card = document.createElement('div');
-                    card.className = 'bg-white p-6 rounded-lg shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300';
-                    card.innerHTML = `
-                        <h3 class="text-xl font-bold text-slate-800 mb-2">${project.title}</h3>
-                        <p class="text-slate-600 mb-4">${project.description}</p>
-                        <div class="flex flex-wrap gap-2">
-                            ${project.tags.map(tag => `<span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">${tag}</span>`).join('')}
-                        </div>
-                    `;
-                    grid.appendChild(card);
-                });
-            };
-            
-            // Function to build the education and certification cards
-            const setupEducationAndCerts = () => {
-                const eduCard = document.getElementById('education-card');
-                eduCard.className = 'bg-white p-6 rounded-lg shadow-md';
-                eduCard.innerHTML = `
-                    <h3 class="text-xl font-bold text-slate-800 mb-4">Education</h3>
-                    <p class="font-semibold text-slate-700">${resumeData.education.degree}</p>
-                    <p class="text-slate-600">${resumeData.education.institution}</p>
-                    <p class="text-slate-500 text-sm">${resumeData.education.period}</p>
-                `;
+      <!-- EDUCATION -->
+      <section class="section" style="margin-bottom:0">
+        <div class="section-label"><span>06</span> Education</div>
+        <div class="edu-item">
+          <div class="edu-degree">Associate of Arts<br>Computer Science</div>
+          <div class="edu-school">Hillsborough Community College<br>Tampa, FL</div>
+          <div class="edu-status">In Progress</div>
+        </div>
+      </section>
 
-                const certsCard = document.getElementById('certs-card');
-                certsCard.className = 'bg-white p-6 rounded-lg shadow-md';
-                let certsHTML = '<h3 class="text-xl font-bold text-slate-800 mb-4">Certifications</h3><ul class="space-y-2">';
-                resumeData.certifications.forEach(cert => {
-                    const statusClass = cert.status === 'Completed' ? 'text-green-700 bg-green-100' : 'text-amber-700 bg-amber-100';
-                    const statusIcon = cert.status === 'Completed' ? '&#10004;' : '&#8987;';
-                    certsHTML += `
-                        <li class="flex items-center justify-between">
-                            <span class="text-slate-700">${cert.name}</span>
-                            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full ${statusClass}">${statusIcon} ${cert.status}</span>
-                        </li>
-                    `;
-                });
-                certsHTML += '</ul>';
-                certsCard.innerHTML = certsHTML;
-            };
+      <!-- MOTTO -->
+      <div class="motto">
+        <p class="motto-verse">"Cast your bread upon the waters. For you will find it after many days."</p>
+        <span class="motto-ref">— Ecclesiastes 11:1</span>
+      </div>
 
-            // Finally, call all the setup functions to build the page content.
-            setupSkillsChart();
-            setupSkillsInteraction();
-            setupTimeline();
-            setupProjects();
-            setupEducationAndCerts();
-        });
-    </script>
+    </aside>
+  </div>
+</div>
 </body>
 </html>

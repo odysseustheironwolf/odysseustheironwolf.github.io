@@ -1,9 +1,7 @@
-# Hello!
+# Greetings
 
-Welcome to my resume!
+Hello my name is Ulises Ferrer, aka Odysseus, this is my portafolio for both career and pprojects as well as some of my thoughts.
 
-I'm updating it as I come a long learnig HTML/CSS/JS.
+Feel free to leave a comment.
 
-Feel free to submit comments and issues
-
-Have a blessed one!
+Have a blessed day!

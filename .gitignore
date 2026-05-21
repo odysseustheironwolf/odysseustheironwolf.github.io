@@ -17,8 +17,14 @@
 *.vspscc
 *.vssscc
 *.dbmdl
+*.old # Old files
+*.old/ # old directories 
+*.obj
+*.obj/
+*.pch   
 
 # Visual Studio Code
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json         
+
